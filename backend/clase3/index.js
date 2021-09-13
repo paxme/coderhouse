@@ -15,4 +15,16 @@
 
  const crearSaludo = (cb, u) => cb(u)
 
- console.log(crearSaludo(saludar, 'jorge'))
+//  console.log(crearSaludo(saludar, 'jorge'))
+
+const op = (x, y, cb) => cb(x,y)
+
+const sumar = (x, y) => x + y
+
+const resta = (x, y) => x - y
+
+const div = (x, y) => x / y
+
+const mult = (x, y) => x * y
+
+console.log(op(5,5,div))
