@@ -71,6 +71,7 @@ const run = async () => {
         thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png',                                   
         id: 3                                                                                                                                              
       })
+    console.log(await c.getById(1))
     await c.deleteById(2)
     console.log(await c.getAll())
 }
