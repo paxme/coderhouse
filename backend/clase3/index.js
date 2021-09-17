@@ -28,3 +28,14 @@ const div = (x, y) => x / y
 const mult = (x, y) => x * y
 
 console.log(op(5,5,div))
+
+console.log("start")
+
+setTimeout(() => {
+    console.log("Timeout")
+}, 1000)
+
+Promise.resolve("Promise")
+.then(res => console.log(res))
+
+console.log("end")
