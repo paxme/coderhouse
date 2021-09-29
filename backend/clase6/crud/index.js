@@ -3,7 +3,6 @@ const arr = require('./arr')
 const app = express()
 const frase = "hola mundo como estan"
 app.use(express.json())
-  .use(express.urlencoded())
 
 // GET
 app.get("/users", (_, res) => {
