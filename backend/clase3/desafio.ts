@@ -27,6 +27,24 @@ class Contenedor {
         return amount + 1
     }
 
+    update = async (object: Product) => {
+        if (object?.id) {
+            const oldProduct = await this.getById(object?.id)
+            if (oldProduct) {
+                this.products =  fs.existsSync(this.fileName) ? (await this.getAll()) : []
+                await this.deleteById(+oldProduct?.id!)
+                this.products.push({...object})
+                await fs.promises.writeFile(
+                    this.fileName, 
+                    JSON.stringify(this.products, null, 2),
+                )   
+            } else {
+                const {id, ...rest} =object
+                await this.save({...rest})
+            }
+        }      
+    }
+
     getAll = async (): Promise<Product[]> => { 
         const objs = await fs.promises.readFile(this.fileName, "utf-8")
         return objs ? JSON.parse(objs) : this.products
@@ -51,29 +69,3 @@ class Contenedor {
     }
 
 }
-
-const run = async () => {
-    const c = new Contenedor("productos.txt")
-    await c.deleteAll()
-    await c.save({                                                                                                                                                    
-        title: 'Escuadra',                                                                                                                                 
-        price: 123.45,                                                                                                                                     
-        thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png',                                                                                                                                                                            
-      })
-    await c.save({                                                                                                                                                    
-        title: 'Calculadora',                                                                                                                              
-        price: 234.56,                                                                                                                                     
-        thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png',                                          
-    })
-    await c.save({                                                                                                                                                    
-        title: 'Globo Terráqueo',                                                                                                                          
-        price: 345.67,                                                                                                                                     
-        thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png',                                   
-        id: 3                                                                                                                                              
-      })
-    console.log(await c.getById(1))
-    await c.deleteById(2)
-    console.log(await c.getAll())
-}
-
-run()
