@@ -1,6 +1,6 @@
-import express from 'express'
-import handlebars from 'express-handlebars'
-import {Contenedor} from './Contenedor'
+const express = require('express')
+const { Contenedor } = require('./Contenedor')
+
 const PORT = 8080
 const app = express()
 const c = new Contenedor('productos.txt')
@@ -9,22 +9,18 @@ const c = new Contenedor('productos.txt')
 app.use(express.json())
     .use(express.urlencoded({ extended: true }))
 
+app.set('views', './views')
 
-app.engine('handlebars', handlebars({
-    extname: '.hbs',
-    layoutsDir: __dirname + '/views/layouts',
-}))
-
-app.set('view engine', 'hbs')
+app.set('view engine', 'pug')
 
 // GET
 app.get("/", (req, res) => {
-    res.render('main', {layout: 'layouts/index.hbs'})
+    res.render('index')
 })
 
 app.get("/productos", async (req, res) => {
     const products = await c.getAll()
-    res.render('products', {layout: 'layouts/index.hbs', products: products})
+    res.render('products', {products: products})
 })
 
 // POST

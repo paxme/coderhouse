@@ -1,0 +1,19 @@
+extends ./layouts/main.pug
+
+block body
+    section#productos.block.text-center.bg-gray-50.my-auto.h-screen
+        h2.p-2.text-5xl.font-sans.font-bold.mt-4 Productos
+        .container.container.max-w-xl.m-auto.flex.flex-wrap.flex-col.items-center.justify-start(class='md:flex-row')
+            if products.length
+                each product in products
+                    - var url = product.thumbnail
+                    .w-full.p-5(class='lg:w-1/2')
+                        .flex.flex-col.rounded.overflow-hidden.h-auto.border.shadow.shadow-lg(class='lg:flex-row lg:h-32')
+                            img.block.h-auto.w-full.flex-none.bg-cover.h-24.rounded-full(class='lg:w-24' src=url)
+                            .bg-white.rounded-b.p-4.flex.flex-col.justify-between.leading-normal(class='lg:rounded-b-none lg:rounded-r')
+                                .text-black.font-bold.text-xl.mb-1.leading-tight= product.title
+                                p.text-grey-darker.text-base= "$" + product.price
+            else
+                .block.p-10.text-center.m-auto
+                    h2 No hay productos :(
+        a.rounded-xl.bg-purple-400.text-white.py-2.px-4.mt-10(href='/' class='hover:bg-red-400 w-3/4 sm:w-1/3') <- Go back to form
