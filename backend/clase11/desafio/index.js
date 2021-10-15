@@ -1,13 +1,15 @@
 const express = require('express')
 const handlebars = require('express-handlebars')
-const {Contenedor} = require('./Contenedor')
 const PORT = 8080
 const app = express()
-const c = new Contenedor('productos.txt')
 const server = require('http').Server(app)
 const { Server } = require('socket.io')
 const io = new Server(server)
-
+const productsRoutes = require('./routes/products')
+const chatRoutes = require('./routes/chat')
+const {Contenedor} = require('./models/Contenedor')
+const cProductos = new Contenedor('productos.txt')
+const cChat = new Contenedor('chat.txt')
 
 app.use(express.json())
     .use(express.urlencoded({ extended: true }))
@@ -22,27 +24,13 @@ app.set('view engine', 'hbs')
 
 app.use(express.static(__dirname + '/public'))
 
-// GET
-app.get("/", async (req, res) => {
-    const products = await c.getAll()
-    res.render('main', {layout: 'layouts/index.hbs', products: products})
-})
-
-// POST
-
-app.post('/productos', async (req, res) => {
-    const product = {
-        title: req.body.title,
-        price: req.body.price,
-        thumbnail: req.body.thumbnail
-    }
-    const id = await c.save(product)
-})
+app.use('/', productsRoutes)
+app.use('/chat', chatRoutes)
 
 io.on('connection', (socket) => {
     console.log("Usuario conectado!")
     socket.on('new_product', async (data) => {
-        await c.save(data)
+        await cProductos.save(data)
         io.sockets.emit("new_update", data)
     })
 })

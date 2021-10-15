@@ -2,9 +2,7 @@ import * as fs from 'fs'
 
 interface Product {
     id?: number
-    title: string,
-    price: number,
-    thumbnail: string,
+    comment: string
 }
 
 export class Contenedor {
