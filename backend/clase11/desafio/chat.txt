@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "name": "diego",
+    "message": "hola",
+    "socketId": "SyaZxXJgekGjcYsuAAAD",
+    "id": 2
+  },
+  {
+    "name": "adele",
+    "message": "hello again",
+    "socketId": "5_kRF8Rp0ZdJPLi7AAAR",
+    "id": 2
+  }
+]

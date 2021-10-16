@@ -33,6 +33,23 @@ io.on('connection', (socket) => {
         await cProductos.save(data)
         io.sockets.emit("new_update", data)
     })
+    socket.on("new_message", async (data) => {
+        try {
+            await cChat.save(data)
+            io.sockets.emit('update_chat', data)
+        } catch (e) {
+            console.log(e)
+        }
+    })
+    socket.on("request_messages", async () => {
+        console.log("messages have been requested")
+        try {
+            const messages = await cChat.getAll()
+            io.sockets.emit('get_messages', messages)
+        } catch (e) {
+            console.log(e)
+        }
+    })
 })
 
 
