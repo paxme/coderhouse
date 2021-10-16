@@ -1,6 +1,6 @@
 const express = require('express')
 const handlebars = require('express-handlebars')
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 const app = express()
 const server = require('http').Server(app)
 const { Server } = require('socket.io')
