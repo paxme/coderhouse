@@ -40,6 +40,8 @@ router.post('/', async (req, res) => {
     })
 })
 
+// DELETE
+
 router.delete('/:id', async (req, res) => {
     await c.deleteById(+req.params.id)
     res.json({
@@ -47,6 +49,8 @@ router.delete('/:id', async (req, res) => {
         body: `deleted product with the id: ${req.params.id}`
     })
 })
+
+// PUT
 
 router.put('/:id', async (req, res) => {
     const id = +req.params.id
