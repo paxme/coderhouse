@@ -5,6 +5,20 @@ const c = new Contenedor('src/products.txt')
 
 const router = new Router()
 
+// Middleware
+const isAdmin = (req, res, next) => {
+    const method = Object.entries(req.route.methods).find(o => o[1])[0]
+
+    if (req.body.admin) {
+        next()
+    } else {
+        res.json({
+            error: -1,
+            body: `route ${req.route.path} method ${method} not authorized`
+        })
+    }
+}
+
 // GET
 router.get("/:id?", async (req, res) => {
     let products = []
@@ -21,8 +35,7 @@ router.get("/:id?", async (req, res) => {
 })
 
 // POST
-
-router.post('/', async (req, res) => {
+router.post('/', isAdmin, async (req, res) => {
     const {title, body, thumbnail, timestamp, code, price, stock} = req.body
     const product = {
         title,
@@ -42,7 +55,7 @@ router.post('/', async (req, res) => {
 
 // DELETE
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', isAdmin, async (req, res) => {
     await c.deleteById(+req.params.id)
     res.json({
         stausCode: 200,
@@ -52,7 +65,7 @@ router.delete('/:id', async (req, res) => {
 
 // PUT
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', isAdmin, async (req, res) => {
     const id = +req.params.id
     await c.update({
         id,
