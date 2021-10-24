@@ -1,9 +1,9 @@
 const express = require('express')
 const { Router } = express
 const router = new Router()
-const { Contenedor } = require('../models/Contenedor')
-const modelCart = new Contenedor('src/carrito.txt')
-const modelProducts = new Contenedor('src/products.txt')
+const { Container } = require('../models/Container')
+const modelCart = new Container('src/cart.txt')
+const modelProducts = new Container('src/products.txt')
 
 // Post
 
